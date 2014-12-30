@@ -4,6 +4,7 @@ import Prelude
 import Yesod
 import Yesod.Static
 import Yesod.Auth
+import Yesod.Auth.GoogleEmail
 import Yesod.Auth.BrowserId
 import Yesod.Default.Config
 import Yesod.Default.Util (addStaticContentExternal)
@@ -15,6 +16,7 @@ import Database.Persist.Sql (SqlBackend)
 import Settings.StaticFiles
 import Settings (widgetFile, Extra (..))
 import Model
+import Model.EulerSolution
 import Text.Jasmine (minifym)
 import Text.Hamlet (hamletFile)
 import Yesod.Core.Types (Logger)
@@ -85,6 +87,14 @@ instance Yesod App where
     authRoute _ = Just $ AuthR LoginR
 
     -- Routes not requiring authentication.
+    isAuthorized _ True = do
+        mauth <- maybeAuth
+        case mauth of
+            Nothing -> return AuthenticationRequired
+            Just (Entity _ user)
+                | isAdmin user -> return Authorized
+                | otherwise -> unauthorizedI MsgNotAnAdmin
+            where isAdmin user = userEmail user == "terrelln@umich.edu"
     isAuthorized (AuthR _) _ = return Authorized
     isAuthorized FaviconR _ = return Authorized
     isAuthorized RobotsR _ = return Authorized
@@ -134,12 +144,11 @@ instance YesodAuth App where
             Just (Entity uid _) -> return $ Just uid
             Nothing -> do
                 fmap Just $ insert User
-                    { userIdent = credsIdent creds
-                    , userPassword = Nothing
+                    { userEmail = credsIdent creds
                     }
 
     -- You can add other plugins like BrowserID, email or OAuth here
-    authPlugins _ = [authBrowserId def]
+    authPlugins _ = [authGoogleEmail]
 
     authHttpManager = httpManager
 

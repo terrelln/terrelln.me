@@ -5,6 +5,9 @@ import Data.Text (Text)
 import Database.Persist.Quasi
 import Data.Typeable (Typeable)
 import Prelude
+import Model.EulerSolution
+import Data.Int (Int64)
+import Data.ByteString (ByteString)
 
 -- You can define all of your database entities in the entities file.
 -- You can find more information on persistent and how to declare entities

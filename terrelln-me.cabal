@@ -16,10 +16,12 @@ library
                      Foundation
                      Import
                      Model
+                     Model.EulerSolution
                      Settings
                      Settings.StaticFiles
                      Settings.Development
                      Handler.Home
+                     Handler.Euler
 
     if flag(dev) || flag(library-only)
         cpp-options:   -DDEVELOPMENT

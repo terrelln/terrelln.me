@@ -4,4 +4,7 @@
 /favicon.ico FaviconR GET
 /robots.txt RobotsR GET
 
-/ HomeR GET POST
+/ HomeR GET
+
+/project-euler EulerR GET POST
+/project-euler/#ProblemNumber EulerSolutionR GET POST

@@ -8,8 +8,8 @@
 #    PGDATABASE
 
 Default: &defaults
-  user: terrelln-me
-  password: terrelln-me
+  user: development
+  password: password
   host: localhost
   port: 5432
   database: terrelln-me
