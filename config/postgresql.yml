@@ -1,0 +1,33 @@
+# NOTE: These settings can be overridden by environment variables as well, in
+# particular:
+#
+#    PGHOST
+#    PGPORT
+#    PGUSER
+#    PGPASS
+#    PGDATABASE
+
+Default: &defaults
+  user: terrelln-me
+  password: terrelln-me
+  host: localhost
+  port: 5432
+  database: terrelln-me
+  poolsize: 10
+
+Development:
+  <<: *defaults
+
+Testing:
+  database: terrelln-me_test
+  <<: *defaults
+
+Staging:
+  database: terrelln-me_staging
+  poolsize: 100
+  <<: *defaults
+
+Production:
+  database: terrelln-me_production
+  poolsize: 100
+  <<: *defaults
